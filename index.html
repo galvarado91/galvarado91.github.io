@@ -1,108 +1,84 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Litecoin Faucet</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9fbff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .faucet-box {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
       text-align: center;
-      width: 90%;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
       max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     input, button {
-      width: 100%;
-      padding: 12px;
+      width: 90%;
+      padding: 10px;
       margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
       font-size: 16px;
     }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .status {
-      margin-top: 15px;
-      font-weight: bold;
+    .ads {
+      margin: 20px 0;
     }
   </style>
 </head>
 <body>
-  <div class="faucet-box">
-    <h2>Litecoin Faucet</h2>
-    <p>Reclama 0.00000100 LTC cada 60 minutos</p>
-    <input type="text" id="wallet" placeholder="Ingresa tu dirección Litecoin" />
+  <div class="container">
+    <h2>🎁 Reclama 0.00000100 LTC</h2>
+    <p>Cada 60 minutos por billetera</p>
+    <input type="text" id="wallet" placeholder="Ingresa tu billetera Litecoin" />
     <button onclick="claim()">Reclamar</button>
-    <div id="status" class="status"></div>
+    <p id="msg"></p>
+
+    <div class="ads">
+      <!-- Banner Ad -->
+      <script type="text/javascript">
+        atOptions = {
+          'key' : '37ac12f05dc100d831b61d19b7b6fd23',
+          'format' : 'iframe',
+          'height' : 90,
+          'width' : 728,
+          'params' : {}
+        };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/37ac12f05dc100d831b61d19b7b6fd23/invoke.js"></script>
+    </div>
   </div>
 
-  <!-- Anuncio Adsterra integrado -->
-  <script type='text/javascript' src='//pl27234273.profitableratecpm.com/bc/45/58/bc45584fb6eca0e8e25fd3804b8aae8b.js'></script>
+  <!-- Popunder Ad -->
+  <script type='text/javascript' src='//pl27234457.profitableratecpm.com/69/3e/71/693e71922781c0a192eacd5fa1e485d2.js'></script>
 
   <script>
-    const cooldown = 60 * 60 * 1000; // 60 minutos
     function claim() {
-      const wallet = document.getElementById("wallet").value.trim();
-      const lastClaim = localStorage.getItem("ltc_" + wallet);
+      const wallet = document.getElementById('wallet').value.trim();
+      const msg = document.getElementById('msg');
       const now = Date.now();
+      const lastClaim = localStorage.getItem(wallet);
+      const nextClaimTime = lastClaim ? parseInt(lastClaim) + 60 * 60 * 1000 : 0;
 
-      if (!wallet) {
-        document.getElementById("status").innerText = "Por favor, ingresa tu dirección Litecoin.";
+      if (!wallet || wallet.length < 25) {
+        msg.innerText = "⚠️ Ingresa una billetera Litecoin válida.";
         return;
       }
 
-      if (lastClaim && now - parseInt(lastClaim) < cooldown) {
-        const remaining = cooldown - (now - parseInt(lastClaim));
-        const minutes = Math.floor(remaining / 60000);
-        const seconds = Math.floor((remaining % 60000) / 1000);
-        document.getElementById("status").innerText = `Espera ${minutes}m ${seconds}s para reclamar de nuevo.`;
-        return;
+      if (now < nextClaimTime) {
+        const minutes = Math.ceil((nextClaimTime - now) / 60000);
+        msg.innerText = `⏳ Espera ${minutes} minutos para volver a reclamar.`;
+      } else {
+        localStorage.setItem(wallet, now);
+        msg.innerText = "✅ Reclamo registrado. Redirigiendo...";
+        setTimeout(() => {
+          window.location.href = "https://google.com"; // Cambia por tu enlace de publicidad
+        }, 2000);
       }
-
-      fetch("https://faucetpay.io/api/v1/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          api_key: "TU_API_KEY",
-          to: wallet,
-          amount: "0.00000100",
-          currency: "LTC",
-          ref: "litecoin_faucet"
-        }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 200) {
-          localStorage.setItem("ltc_" + wallet, now);
-          document.getElementById("status").innerText = "¡Pago enviado! Reclama de nuevo en 60 minutos.";
-        } else {
-          document.getElementById("status").innerText = "Error: " + data.message;
-        }
-      })
-      .catch(() => {
-        document.getElementById("status").innerText = "Hubo un error al procesar el reclamo.";
-      });
     }
   </script>
 </body>
