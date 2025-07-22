@@ -2,57 +2,73 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Litecoin Faucet</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f8ff;
-      text-align: center;
-      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fbff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
-    .container {
-      max-width: 400px;
-      margin: auto;
+    .faucet-box {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
     }
     input, button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
       font-size: 16px;
     }
-    .ad {
-      margin: 20px 0;
-      padding: 10px;
-      background: #e6e6e6;
-      border-radius: 5px;
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .status {
+      margin-top: 15px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="faucet-box">
     <h2>Litecoin Faucet</h2>
     <p>Reclama 0.00000100 LTC cada 60 minutos</p>
-    <input type="text" id="wallet" placeholder="Ingresa tu dirección Litecoin">
+    <input type="text" id="wallet" placeholder="Ingresa tu dirección Litecoin" />
     <button onclick="claim()">Reclamar</button>
-    <div id="status"></div>
-    <div class="ad">[Anuncio aquí: xxxx]</div>
+    <div id="status" class="status"></div>
   </div>
-  <script>
-    const cooldown = 60 * 60 * 1000; // 60 minutos en milisegundos
 
+  <!-- Anuncio Adsterra integrado -->
+  <script type='text/javascript' src='//pl27234273.profitableratecpm.com/bc/45/58/bc45584fb6eca0e8e25fd3804b8aae8b.js'></script>
+
+  <script>
+    const cooldown = 60 * 60 * 1000; // 60 minutos
     function claim() {
       const wallet = document.getElementById("wallet").value.trim();
       const lastClaim = localStorage.getItem("ltc_" + wallet);
       const now = Date.now();
 
       if (!wallet) {
-        document.getElementById("status").innerText = "Por favor ingresa tu dirección Litecoin.";
+        document.getElementById("status").innerText = "Por favor, ingresa tu dirección Litecoin.";
         return;
       }
 
@@ -66,9 +82,7 @@
 
       fetch("https://faucetpay.io/api/v1/send", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           api_key: "TU_API_KEY",
           to: wallet,
