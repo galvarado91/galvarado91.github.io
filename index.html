@@ -36,7 +36,7 @@
 </head>
 <body>
 
-  <!-- Popunder Ad -->
+  <!-- Popunder Adsterra -->
   <script type='text/javascript' src='https://pl27234457.profitableratecpm.com/69/3e/71/693e71922781c0a192eacd5fa1e485d2.js'></script>
 
   <div class="container">
@@ -46,7 +46,7 @@
     <button onclick="claim()">Reclamar</button>
     <p id="msg"></p>
 
-    <!-- Banner Ad -->
+    <!-- Banner Adsterra -->
     <div class="ads">
       <script type="text/javascript">
         atOptions = {
@@ -61,6 +61,7 @@
     </div>
   </div>
 
+  <!-- Script de reclamo -->
   <script>
     function claim() {
       const wallet = document.getElementById('wallet').value.trim();
@@ -81,10 +82,25 @@
         localStorage.setItem(wallet, now);
         msg.innerText = "✅ Reclamo registrado. Redirigiendo...";
         setTimeout(() => {
-          window.location.href = "https://google.com"; // Cambia este link por tu enlace publicitario real
+          window.location.href = "https://google.com"; // Cambia por tu enlace publicitario real
         }, 2000);
       }
     }
+  </script>
+
+  <!-- ✅ PopCash ventana emergente -->
+  <script type="text/javascript">
+    var uid = '492970';
+    var wid = '743588';
+    var pop_fback = 'up';
+    var pop_tag = document.createElement('script');
+    pop_tag.src = '//cdn.popcash.net/show.js';
+    document.body.appendChild(pop_tag);
+    pop_tag.onerror = function() {
+      pop_tag = document.createElement('script');
+      pop_tag.src = '//cdn2.popcash.net/show.js';
+      document.body.appendChild(pop_tag);
+    };
   </script>
 
 </body>
