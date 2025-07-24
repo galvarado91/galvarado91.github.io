@@ -3,105 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Faucet Rewards</title>
+  <title>Litecoin Faucet</title>
+
+  <!-- ✅ Meta verificación de Adsterra -->
+  <meta name="ppck-ver" content="a526364fbd19b99305476aa82bc252c8" />
+
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
     body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(145deg, #e0e0e0, #f0f0f0);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    .container {
-      background: #ffffff;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      padding: 30px 25px;
-      border-radius: 15px;
-      text-align: center;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      font-size: 1.5em;
-      color: #333;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 15px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
+      font-family: Arial, sans-serif;
       background: #f5f5f5;
-      box-shadow: inset 2px 2px 5px #ddd, inset -5px -5px 10px #fff;
-      margin-bottom: 20px;
-      transition: 0.3s;
+      text-align: center;
+      padding: 20px;
     }
-
-    input[type="text"]:focus {
-      outline: none;
-      background: #fff;
-    }
-
-    button {
-      background: #00c853;
-      color: #fff;
-      border: none;
-      padding: 15px 30px;
-      font-size: 16px;
+    .container {
+      background: white;
+      padding: 20px;
       border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transition: background 0.3s ease;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    button:hover {
-      background: #00b44a;
+    input, button {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
     }
-
-    .note {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #777;
+    .ads {
+      margin: 20px 0;
     }
   </style>
 </head>
 <body>
+
+  <!-- Popunder Ad -->
+  <script type='text/javascript' src='https://pl27234457.profitableratecpm.com/69/3e/71/693e71922781c0a192eacd5fa1e485d2.js'></script>
+
   <div class="container">
-    <h1>Faucet de Recompensas</h1>
-    <input type="text" id="wallet" placeholder="Ingresa tu dirección de retiro" />
-    <button onclick="redirect()">Retirar</button>
-    <p class="note">Solo una vez cada 60 minutos.</p>
+    <h2>🎁 Reclama 0.00000100 LTC</h2>
+    <p>Cada 60 minutos por billetera</p>
+    <input type="text" id="wallet" placeholder="Ingresa tu billetera Litecoin" />
+    <button onclick="claim()">Reclamar</button>
+    <p id="msg"></p>
+
+    <!-- Banner Ad -->
+    <div class="ads">
+      <script type="text/javascript">
+        atOptions = {
+          'key' : '37ac12f05dc100d831b61d19b7b6fd23',
+          'format' : 'iframe',
+          'height' : 90,
+          'width' : 728,
+          'params' : {}
+        };
+      </script>
+      <script type="text/javascript" src="https://www.highperformanceformat.com/37ac12f05dc100d831b61d19b7b6fd23/invoke.js"></script>
+    </div>
   </div>
 
   <script>
-    const directLink = "https://www.profitableratecpm.com/bcbdpfp6w?key=214ba145b5e32e4428852c3e3b225a9c";
+    function claim() {
+      const wallet = document.getElementById('wallet').value.trim();
+      const msg = document.getElementById('msg');
+      const now = Date.now();
+      const lastClaim = localStorage.getItem(wallet);
+      const nextClaimTime = lastClaim ? parseInt(lastClaim) + 60 * 60 * 1000 : 0;
 
-    function redirect() {
-      const wallet = document.getElementById("wallet").value.trim();
-      if(wallet.length > 0){
-        window.location.href = directLink;
+      if (!wallet || wallet.length < 25) {
+        msg.innerText = "⚠️ Ingresa una billetera Litecoin válida.";
+        return;
+      }
+
+      if (now < nextClaimTime) {
+        const minutes = Math.ceil((nextClaimTime - now) / 60000);
+        msg.innerText = `⏳ Espera ${minutes} minutos para volver a reclamar.`;
       } else {
-        alert("Por favor, ingresa tu dirección de retiro.");
+        localStorage.setItem(wallet, now);
+        msg.innerText = "✅ Reclamo registrado. Redirigiendo...";
+        setTimeout(() => {
+          window.location.href = "https://google.com"; // Cambia este link por tu enlace publicitario real
+        }, 2000);
       }
     }
-
-    // Redireccionar automáticamente al ingresar una dirección
-    document.getElementById("wallet").addEventListener("change", function() {
-      if (this.value.trim().length > 0) {
-        redirect();
-      }
-    });
   </script>
+
 </body>
 </html>
